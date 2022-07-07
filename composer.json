@@ -15,6 +15,7 @@
         "Messenger"
     ],
     "require": {
+        "geoip2/geoip2": "^2.12",
         "rtippin/messenger": "^1.19"
     },
     "autoload": {
