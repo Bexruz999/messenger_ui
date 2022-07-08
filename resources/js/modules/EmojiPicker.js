@@ -70,7 +70,7 @@ window.EmojiPicker = (function () {
                 opt.messagePicker.on('emoji', methods.messageSelection);
             }
             opt.messageTextElm = document.getElementById('message_text_input');
-            opt.messagePicker.showPicker(opt.messageTextElm);
+            /*opt.messagePicker.showPicker(opt.messageTextElm);*/
         },
         editMessage : function(){
             if(opt.editPicker === null){

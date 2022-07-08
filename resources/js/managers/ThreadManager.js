@@ -510,11 +510,11 @@ window.ThreadManager = (function () {
                         'reacted-by-me badge badge-light mr-1 px-1 pointer_area'
                     ];
                     if (ignore.includes(elm_class) || Messenger.common().mobile) return;
-                    Messenger.format().focusEnd(focus_input);
+                    Messenger.format();
                 break;
                 case 3:
                     if(!opt.thread.messaging) return;
-                    Messenger.format().focusEnd(focus_input);
+                    Messenger.format();
                 break;
                 case 4:
                     if(e.target.id === 'msg_thread_new_group') Messenger.format().focusEnd(document.getElementById('subject'));
@@ -2015,7 +2015,7 @@ window.ThreadManager = (function () {
                 opt.elements.reply_message_alert.html(ThreadTemplates.render().thread_replying_message_alert(opt.storage.messages[i]));
                 opt.thread.replying = true;
                 opt.thread.reply_to_id = arg.id;
-                Messenger.format().focusEnd(focus_input);
+                Messenger.format();
             }
         },
         resetReplying : function(){

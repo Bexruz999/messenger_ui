@@ -26,7 +26,7 @@ window.Messenger = (function () {
         mobile : false,
         teapot : 0,
         modal_close : null,
-        dark_mode : true,
+        dark_mode : false,
         css : {
             base : null,
             dark : null

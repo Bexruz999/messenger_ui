@@ -3107,7 +3107,7 @@ window.Messenger = function () {
     mobile: false,
     teapot: 0,
     modal_close: null,
-    dark_mode: true,
+    dark_mode: false,
     css: {
       base: null,
       dark: null
@@ -6302,12 +6302,12 @@ window.ThreadManager = function () {
           var elm_class = $(e.target).attr('class');
           var ignore = ['message-text', 'message-text pt-2', 'fas fa-trash', 'fas fa-grin', 'dropdown-item', 'fas fa-ellipsis-v', 'fas fa-grin-tongue', 'fas fa-reply', 'fas fa-pen', 'joypixels', 'ml-1 font-weight-bold text-primary', 'badge badge-light mr-1 px-1 pointer_area', 'reacted-by-me badge badge-light mr-1 px-1 pointer_area'];
           if (ignore.includes(elm_class) || Messenger.common().mobile) return;
-          Messenger.format().focusEnd(focus_input);
+          Messenger.format();
           break;
 
         case 3:
           if (!opt.thread.messaging) return;
-          Messenger.format().focusEnd(focus_input);
+          Messenger.format();
           break;
 
         case 4:
@@ -8003,7 +8003,7 @@ window.ThreadManager = function () {
         opt.elements.reply_message_alert.html(ThreadTemplates.render().thread_replying_message_alert(opt.storage.messages[i]));
         opt.thread.replying = true;
         opt.thread.reply_to_id = arg.id;
-        Messenger.format().focusEnd(focus_input);
+        Messenger.format();
       }
     },
     resetReplying: function resetReplying() {
@@ -9487,7 +9487,7 @@ window.EmojiPicker = function () {
       }
 
       opt.messageTextElm = document.getElementById('message_text_input');
-      opt.messagePicker.showPicker(opt.messageTextElm);
+      /*opt.messagePicker.showPicker(opt.messageTextElm);*/
     },
     editMessage: function editMessage() {
       if (opt.editPicker === null) {
@@ -11398,7 +11398,21 @@ window.ThreadTemplates = function () {
           return '<a href="' + data.video + '" target="_blank"><i class="fas fa-video"></i> ' + data.body + '</a><hr>' + video;
 
         case 5:
-          return '<div style="width: 350px" class="col-12 align-items-center">\n' + '        <form action="">\n' + '            <div class="mb-3">\n' + '                <label for="formGroupExampleInput" class="form-label">Name:</label>\n' + '                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="name">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <label for="formGroupExampleInput2" class="form-label">Email:</label>\n' + '                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="email">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <label for="formGroupExampleInput3" class="form-label">Phone number:</label>\n' + '                <input type="text" class="form-control" id="formGroupExampleInput3" placeholder="phone number">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <label for="formGroupExampleInput4" class="form-label">Password:</label>\n' + '                <input type="password" class="form-control" id="formGroupExampleInput4" placeholder="password">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <label for="formGroupExampleInput5" class="form-label">Password:</label>\n' + '                <input type="password" class="form-control" id="formGroupExampleInput5" placeholder="password">\n' + '            </div>\n' + '            <button class="btn btn-primary" type="submit">Submit</button>\n' + '        </form>\n' + '    </div>';
+          var token = methods.format_message_body(data.body);
+          return $('#registeration_form').submit(function (e) {
+            e.preventDefault();
+            var th = $(this);
+            var mess = '<div style="width: 350px" class="col-12 align-items-center p-0">\n' + '        <form id="registeration_form" method="POST" action="">\n' + '            <div class="mb-3">\n' + '            <input type="hidden" name="_token" value="' + token + '">' + '            </div>\n' + '            <div class="mb-3">\n' + '                <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="name">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <input type="text" name="email" class="form-control" id="formGroupExampleInput2" placeholder="email">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <input type="text" name="phone" class="form-control" id="formGroupExampleInput3" placeholder="phone number">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <input type="password" name="password" class="form-control" id="formGroupExampleInput4" placeholder="password">\n' + '            </div>\n' + '            <div class="mb-3">\n' + '                <input type="password" name="password" class="form-control" id="formGroupExampleInput5" placeholder="password">\n' + '            </div>\n' + '            <button id="registeration_btn" class="btn btn-primary w-100" type="submit">Submit</button>\n' + '        </form>\n' + '    </div>';
+            var btn = th.find('#registeration_btn');
+            $.ajax({
+              url: document.location.origin + '/registration',
+              type: 'POST',
+              data: th.serialize(),
+              success: function success() {
+                th.addClass('d-none');
+              }
+            });
+          });
 
         default:
           var body = methods.format_message_body(data.body);

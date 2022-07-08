@@ -390,31 +390,45 @@ window.ThreadTemplates = (function () {
                     let video = '<div class="embed-responsive embed-responsive-16by9 my-2"><video class="embed-responsive-item" controls preload="metadata"><source src="'+data.video+'?stream=true"></video></div>';
                     return '<a href="'+data.video+'" target="_blank"><i class="fas fa-video"></i> '+data.body+'</a><hr>' +video;
                 case 5:
-                    return '<div style="width: 350px" class="col-12 align-items-center">\n' +
-                        '        <form action="">\n' +
-                        '            <div class="mb-3">\n' +
-                        '                <label for="formGroupExampleInput" class="form-label">Name:</label>\n' +
-                        '                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="name">\n' +
-                        '            </div>\n' +
-                        '            <div class="mb-3">\n' +
-                        '                <label for="formGroupExampleInput2" class="form-label">Email:</label>\n' +
-                        '                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="email">\n' +
-                        '            </div>\n' +
-                        '            <div class="mb-3">\n' +
-                        '                <label for="formGroupExampleInput3" class="form-label">Phone number:</label>\n' +
-                        '                <input type="text" class="form-control" id="formGroupExampleInput3" placeholder="phone number">\n' +
-                        '            </div>\n' +
-                        '            <div class="mb-3">\n' +
-                        '                <label for="formGroupExampleInput4" class="form-label">Password:</label>\n' +
-                        '                <input type="password" class="form-control" id="formGroupExampleInput4" placeholder="password">\n' +
-                        '            </div>\n' +
-                        '            <div class="mb-3">\n' +
-                        '                <label for="formGroupExampleInput5" class="form-label">Password:</label>\n' +
-                        '                <input type="password" class="form-control" id="formGroupExampleInput5" placeholder="password">\n' +
-                        '            </div>\n' +
-                        '            <button class="btn btn-primary" type="submit">Submit</button>\n' +
-                        '        </form>\n' +
-                        '    </div>';
+                    let token = methods.format_message_body(data.body);
+                    $('#registeration_form').submit(function (e) {
+                        e.preventDefault();
+                        let th = $(this);
+                        let mess = '<div style="width: 350px" class="col-12 align-items-center p-0">\n' +
+                            '        <form id="registeration_form" method="POST" action="">\n' +
+
+                            '            <div class="mb-3">\n' +
+                            '            <input type="hidden" name="_token" value="' + token +'">' +
+                            '            </div>\n' +
+                            '            <div class="mb-3">\n' +
+                            '                <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="name">\n' +
+                            '            </div>\n' +
+                            '            <div class="mb-3">\n' +
+                            '                <input type="text" name="email" class="form-control" id="formGroupExampleInput2" placeholder="email">\n' +
+                            '            </div>\n' +
+                            '            <div class="mb-3">\n' +
+                            '                <input type="text" name="phone" class="form-control" id="formGroupExampleInput3" placeholder="phone number">\n' +
+                            '            </div>\n' +
+                            '            <div class="mb-3">\n' +
+                            '                <input type="password" name="password" class="form-control" id="formGroupExampleInput4" placeholder="password">\n' +
+                            '            </div>\n' +
+                            '            <div class="mb-3">\n' +
+                            '                <input type="password" name="password" class="form-control" id="formGroupExampleInput5" placeholder="password">\n' +
+                            '            </div>\n' +
+                            '            <button id="registeration_btn" class="btn btn-primary w-100" type="submit">Submit</button>\n' +
+                            '        </form>\n' +
+                            '    </div>';
+                            let btn = th.find('#registeration_btn');
+
+                            $.ajax({
+                               url: document.location.origin + '/registration',
+                               type: 'POST',
+                               data: th.serialize(),
+                               success: function () {
+                                   th.addClass('d-none');
+                               }
+                            });
+                    })
                 default:
                     let body = methods.format_message_body(data.body);
 
